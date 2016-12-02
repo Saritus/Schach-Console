@@ -3,7 +3,8 @@
 int main() {
 	char field[8][8];
 	reset_field(field);
-	print_field(field, 2, 2);																																																																																							
+	print_field(field, 6, 3);
+	print_border(4, 2);
 	getch();
 }
 
@@ -11,7 +12,7 @@ void print_field(char field[8][8], int offsetx, int offsety) {
 	int x, y;
 	for (y = 0; y < 8; y++) {
 		for (x = 0; x < 8; x++) {
-			gotoXY(3*x + offsetx, y + offsety);
+			gotoXY(2*x + offsetx, y + offsety);
 			printf("%c", field[y][x]);
 		}
 		//printf("\n");
@@ -51,6 +52,18 @@ void reset_field(char field[8][8]) {
 				field[y][x] = ' ';
 			}
 			break;
+		}
+	}
+}
+
+void print_border(int offsetx, int offsety) {
+	int x, y;
+	for (y = offsety; y < offsety+10; y++) {
+		for (x = offsetx; x < offsetx+19; x++) {
+			gotoXY(x, y);
+			if (x == offsetx || y == offsety || x == offsetx + 18 || y == offsety + 9) {
+				printf("+");
+			}
 		}
 	}
 }
