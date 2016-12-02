@@ -1,3 +1,1 @@
-#include <windows.h>
-#include <stdio.h>
-
+#include "Functions.h"
