@@ -76,10 +76,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Schach.c" />
+    <ClCompile Include="Chess.c" />
+    <ClCompile Include="Functions.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Schach.h" />
+    <ClInclude Include="Chess.h" />
+    <ClInclude Include="Functions.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
