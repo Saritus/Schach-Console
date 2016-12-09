@@ -5,6 +5,9 @@ int main() {
 	reset_field(field);
 	print_field(field, 6, 3);
 	print_border(4, 2);
+
+	save_file("test.txt", field);
+
 	getch();
 }
 
@@ -66,4 +69,18 @@ void print_border(int offsetx, int offsety) {
 			}
 		}
 	}
+}
+
+void load_file(char* filename, char field[8][8]) {
+
+}
+
+void save_file(char* filename, char field[8][8]) {
+	FILE *f = fopen(filename, "w");
+	for (int i = 0; i < 8; i++) {
+		for (int j = 0; j < 8; j++) {
+			fputc(field[i][j], f);
+		}
+	}
+	fclose(f);
 }
