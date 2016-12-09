@@ -98,16 +98,20 @@ void save_file(char* filename, char field[8][8]) {
 }
 
 char input() {
-	char input[4];
+	char input[5];
 	gotoXY(4, 13);
 	printf("Nachster Zug: ");
-	scanf_s("%4c", &input, _countof(input));
+	scanf_s("%4c", &input, _countof(input) - 1);
+	input[4] = '\0';
 	clear_stdin();
 
 	gotoXY(4, 14);
-	printf("%d.%d.%d.%d", input[0], input[1], input[2], input[3]);
+	printf("%s", input);
 
-	getch();
+	if (!strcmp(input, "quit")) {
+		return 1;
+	}
+
 	return 0;
 }
 
@@ -115,3 +119,4 @@ void clear_stdin() {
 	int c;
 	while ((c = getchar()) != '\n' && c != EOF) {};
 }
+
