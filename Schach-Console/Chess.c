@@ -9,15 +9,15 @@ int main() {
 	//save_file("test.txt", field);
 
 
-	int quit = 0;
-	while (!quit) {
+	char next = 'g';
+	while (next != 'q') {
 		system("cls");
 		print_player(2, 1, player);
 		print_letters(2, 3);
 		print_border(3, 4);
 		print_field(field, 5, 5);
-		quit = input(field, player);
-		player = player == 1 ? 2 : 1;
+		next = input(field, player);
+		player = (next == 'n') && (player == 1) ? 2 : 1;
 	}
 }
 
@@ -146,22 +146,17 @@ char input(char field[8][8], int player) {
 	//printf("%s", input);
 
 	if (!strcmp(input, "quit")) {
-		return 1;
+		return 'q';
 	}
 
 	int move[4];
 	if (evaluate_input(input, move) && is_move_ok(field, move, player)) {
 		execute_move(field, move);
+		return 'n';
 	}
-
-	gotoXY(4, 18);
-	//printf("%d.%d.%d.%d", move[0], move[1], move[2], move[3]);
-
-	
-
-	//getch();
-
-	return 0;
+	else {
+		return 'a';
+	}
 }
 
 void clear_stdin() {
@@ -210,9 +205,15 @@ int execute_move(char field[8][8], int move[4]) {
 	field[move[1]][move[0]] = ' ';
 }
 
-int is_move_ok(char field[8][8], int move[4]) {
+int is_move_ok(char field[8][8], int move[4], int player) {
 	char figur = field[move[1]][move[0]];
 	if (figur == ' ') {
+		return 0;
+	}
+	if ((player == 1) && ('A' <= figur) && (figur <= 'Z')) {
+		return 0;
+	}
+	if ((player == 2) && ('a' <= figur) && (figur <= 'z')) {
 		return 0;
 	}
 	return 1;
