@@ -4,13 +4,17 @@ int main() {
 	char field[8][8];
 	reset_field(field);
 	
-	load_file("test.txt", field);
+	//load_file("test.txt", field);
 	//save_file("test.txt", field);
 
-	print_field(field, 6, 3);
-	print_border(4, 2);
 
-	getch();
+	int quit = 0;
+	while (!quit) {
+		system("cls");
+		print_border(4, 2);
+		print_field(field, 6, 3);
+		quit = input();
+	}
 }
 
 void print_field(char field[8][8], int offsetx, int offsety) {
@@ -91,4 +95,23 @@ void save_file(char* filename, char field[8][8]) {
 		}
 	}
 	fclose(f);
+}
+
+char input() {
+	char input[4];
+	gotoXY(4, 13);
+	printf("Nachster Zug: ");
+	scanf_s("%4c", &input, _countof(input));
+	clear_stdin();
+
+	gotoXY(4, 14);
+	printf("%d.%d.%d.%d", input[0], input[1], input[2], input[3]);
+
+	getch();
+	return 0;
+}
+
+void clear_stdin() {
+	int c;
+	while ((c = getchar()) != '\n' && c != EOF) {};
 }
