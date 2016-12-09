@@ -13,7 +13,8 @@ int main() {
 	while (!quit) {
 		system("cls");
 		print_player(2, 1, player);
-		print_border(2, 3);
+		print_letters(2, 3);
+		print_border(3, 4);
 		print_field(field, 5, 5);
 		quit = input(field, player);
 		player = player == 1 ? 2 : 1;
@@ -73,7 +74,7 @@ void reset_field(char field[8][8]) {
 	}
 }
 
-void print_border(int offsetx, int offsety) {
+void print_letters(int offsetx, int offsety) {
 	int i;
 	for (i = 0; i < 8; i++) {
 		//TOP
@@ -94,6 +95,25 @@ void print_border(int offsetx, int offsety) {
 	}
 }
 
+void print_border(int offsetx, int offsety) {
+	for (int x = 0; x < 19; x++) {
+		for (int y = 0; y < 10; y++) {
+			gotoXY(x + offsetx, y + offsety);
+			int nr = 2 * (x == 0) + (y == 0) + 2 * (x == 18) + (y == 9);
+			switch (nr) {
+			case 3:
+				printf("+");
+				break;
+			case 2:
+				printf("|");
+				break;
+			case 1:
+				printf("-");
+				break;
+			}
+		}
+	}
+}
 void load_file(char* filename, char field[8][8]) {
 	FILE *f = fopen(filename, "r");
 	for (int i = 0; i < 8; i++) {

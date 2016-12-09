@@ -3,6 +3,7 @@
 void print_player(int x, int y, int player);
 void print_field(char[8][8], int, int);
 void reset_field(char[8][8]);
+void print_letters(int, int);
 void print_border(int, int);
 void load_file(char*, char[8][8]);
 void save_file(char*, char[8][8]);
