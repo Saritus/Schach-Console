@@ -2,6 +2,7 @@
 
 int main() {
 	char field[8][8];
+	int player = 1;
 	reset_field(field);
 
 	//load_file("test.txt", field);
@@ -11,10 +12,17 @@ int main() {
 	int quit = 0;
 	while (!quit) {
 		system("cls");
-		print_border(4, 1);
-		print_field(field, 5, 3);
-		quit = input(field);
+		print_player(2, 1, player);
+		print_border(2, 3);
+		print_field(field, 5, 5);
+		quit = input(field, player);
+		player = player == 1 ? 2 : 1;
 	}
+}
+
+void print_player(int x, int y, int player) {
+	gotoXY(x, y);
+	printf("Spieler %d ist dran", player);
 }
 
 void print_field(char field[8][8], int offsetx, int offsety) {
@@ -66,28 +74,23 @@ void reset_field(char field[8][8]) {
 }
 
 void print_border(int offsetx, int offsety) {
-	/*for (y = offsety; y < offsety+14; y++) {
-	for (x = offsetx; x < offsetx+23; x++) {
-	if (x == offsetx || y == offsety || x == offsetx + 22 || y == offsety + 13 || x == offsetx+2 || y == offsety+2 || x == offsetx + 20 || y == offsety + 11) {
-	gotoXY(x, y);
-	printf("*");
-	}
-	}
-	}*/
-
 	int i;
 	for (i = 0; i < 8; i++) {
 		//TOP
-		gotoXY(2 * i + offsetx + 1, offsety);
+		gotoXY(2 * i + offsetx + 3, offsety);
 		printf("%c", i + 'a');
 
 		//BOTTOM
-		gotoXY(2 * i + offsetx + 1, offsety + 11);
+		gotoXY(2 * i + offsetx + 3, offsety + 11);
 		printf("%c", i + 'a');
 
 		//LEFT
-		gotoXY(offsetx, i + offsety);
-		printf("%d", i + 1);
+		gotoXY(offsetx, i + offsety + 2);
+		printf("%d", 8 - i);
+
+		//RIGHT
+		gotoXY(offsetx + 20, i + offsety + 2);
+		printf("%d", 8 - i);
 	}
 }
 
@@ -111,7 +114,7 @@ void save_file(char* filename, char field[8][8]) {
 	fclose(f);
 }
 
-char input(char field[8][8]) {
+char input(char field[8][8], int player) {
 	char input[5];
 	gotoXY(4, 16);
 	printf("Nachster Zug: ");
@@ -120,20 +123,23 @@ char input(char field[8][8]) {
 	clear_stdin();
 
 	gotoXY(4, 17);
-	printf("%s", input);
+	//printf("%s", input);
 
 	if (!strcmp(input, "quit")) {
 		return 1;
 	}
 
-	int* move = evaluate_input(input);
+	int move[4];
+	if (evaluate_input(input, move) && is_move_ok(field, move, player)) {
+		execute_move(field, move);
+	}
 
 	gotoXY(4, 18);
-	printf("%d.%d.%d.%d", move[0], move[1], move[2], move[3]);
+	//printf("%d.%d.%d.%d", move[0], move[1], move[2], move[3]);
 
-	execute_move(field, move);
+	
 
-	getch();
+	//getch();
 
 	return 0;
 }
@@ -143,34 +149,32 @@ void clear_stdin() {
 	while ((c = getchar()) != '\n' && c != EOF) {};
 }
 
-int* evaluate_input(char* input) {
-	static int move[4];
-
+int evaluate_input(char* input, int move[4]) {
 	if (is_letter(input[0])) {
 		move[0] = input[0] - 'a';
 	}
 	else {
-		return;
+		return 0;
 	}
 	if (is_number(input[1])) {
 		move[1] = 7 - (input[1] - '1');
 	}
 	else {
-		return;
+		return 0;
 	}
 	if (is_letter(input[2])) {
 		move[2] = input[2] - 'a';
 	}
 	else {
-		return;
+		return 0;
 	}
 	if (is_number(input[3])) {
 		move[3] = 7 - (input[3] - '1');
 	}
 	else {
-		return;
+		return 0;
 	}
-	return &move;
+	return 1;
 }
 
 int is_letter(char letter) {
@@ -182,12 +186,14 @@ int is_number(char number) {
 }
 
 int execute_move(char field[8][8], int move[4]) {
-	if (is_move_ok(field, move[4])) {
-		field[move[3]][move[2]] = field[move[1]][move[0]];
-		field[move[1]][move[0]] = ' ';
-	}
+	field[move[3]][move[2]] = field[move[1]][move[0]];
+	field[move[1]][move[0]] = ' ';
 }
 
 int is_move_ok(char field[8][8], int move[4]) {
+	char figur = field[move[1]][move[0]];
+	if (figur == ' ') {
+		return 0;
+	}
 	return 1;
 }
