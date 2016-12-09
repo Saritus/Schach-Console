@@ -2,3 +2,4 @@
 #include <stdio.h>
 
 void gotoXY(int x, int y);
+int getArrowKey(void);
