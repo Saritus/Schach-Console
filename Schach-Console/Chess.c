@@ -207,12 +207,18 @@ int execute_move(char field[8][8], int move[4]) {
 
 int is_move_ok(char field[8][8], int move[4], int player) {
 	char figur = field[move[1]][move[0]];
+
+	// cannot move empty space
 	if (figur == ' ') {
 		return 0;
 	}
+
+	// player 1 can only move lower letters
 	if ((player == 1) && ('A' <= figur) && (figur <= 'Z')) {
 		return 0;
 	}
+
+	// player 2 can only move lower letters
 	if ((player == 2) && ('a' <= figur) && (figur <= 'z')) {
 		return 0;
 	}
