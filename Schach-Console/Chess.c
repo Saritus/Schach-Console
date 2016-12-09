@@ -112,6 +112,10 @@ char input() {
 		return 1;
 	}
 
+	evaluate_input(input);
+
+	getch();
+
 	return 0;
 }
 
@@ -120,3 +124,40 @@ void clear_stdin() {
 	while ((c = getchar()) != '\n' && c != EOF) {};
 }
 
+void evaluate_input(char* input) {
+	int x1, y1, x2, y2;
+	if (is_letter(input[0])) {
+		x1 = input[0] - 'a';
+	}
+	else {
+		return;
+	}
+	if (is_number(input[1])) {
+		y1 = input[1] - '1';
+	}
+	else {
+		return;
+	}
+	if (is_letter(input[2])) {
+		x2 = input[2] - 'a';
+	}
+	else {
+		return;
+	}
+	if (is_number(input[3])) {
+		y2 = input[3] - '1';
+	}
+	else {
+		return;
+	}
+	gotoXY(4, 15);
+	printf("%d.%d.%d.%d", x1, y1, x2, y2);
+}
+
+int is_letter(char letter) {
+	return ((letter >= 'a') && (letter <= 'h'));
+}
+
+int is_number(char number) {
+	return ((number >= '1') && (number <= '8'));
+}
