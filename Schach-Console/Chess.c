@@ -3,11 +3,13 @@
 int main() {
 	char field[8][8];
 	int player = 1;
+	int turn = 0;
 	reset_field(field);
 
 	//load_file("test.txt", field);
 	//save_file("test.txt", field);
 
+	remove("history.txt");
 
 	char next = 'g';
 	while (next != 'q') {
@@ -16,13 +18,17 @@ int main() {
 		next = input(field, player);
 		if (next == 'n') {
 			player = (player == 1) ? 2 : 1;
+			turn++;
 			writeLine("history.txt", field);
 		}
-		if ()
+		if (next == 'u') {
+			loadLine("history.txt", turn, field);
+			turn--;
+		}
 	}
 }
 
-void print_surface(int field[8][8], int player) {
+void print_surface(char field[8][8], int player) {
 	print_player(2, 1, player);
 	print_letters(3, 4);
 	print_border(5, 5);
@@ -216,9 +222,9 @@ int is_number(char number) {
 	return ((number >= '1') && (number <= '8'));
 }
 
-int execute_move(char field[8][8], int move[4]) {
+void execute_move(char field[8][8], int move[4]) {
 	field[move[3]][move[2]] = field[move[1]][move[0]];
-	field[move[1]][move[0]] = ' ';
+	field[move[1]][move[0]] = ' '; 
 }
 
 int is_move_ok(char field[8][8], int move[4], int player) {
@@ -266,7 +272,9 @@ char* readLine(char* filename, int linenumber) {
 	else
 	{
 		//file doesn't exist
+		return NULL;
 	}
+	return NULL; // should never happen
 }
 
 int writeLine(char* filename, char field[8][8]) {
@@ -278,4 +286,15 @@ int writeLine(char* filename, char field[8][8]) {
 	}
 	fputc('\n', f);
 	fclose(f);
+}
+
+void loadLine(char* filename, int linenumber, char field[8][8]) {
+	char* line = readLine(filename, linenumber);
+	if (line) {
+		for (int i = 0; i < 8; i++) {
+			for (int j = 0; j < 8; j++) {
+				field[i][j] = line[i * 8 + j];
+			}
+		}
+	}
 }
