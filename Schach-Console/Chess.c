@@ -22,8 +22,7 @@ int main() {
 			writeLine("history.txt", field);
 		}
 		if (next == 'u') {
-			loadLine("history.txt", turn, field);
-			turn--;
+			loadLine("history.txt", --turn, field);
 		}
 	}
 }
@@ -249,9 +248,8 @@ int is_move_ok(char field[8][8], int move[4], int player) {
 
 char* readLine(char* filename, int linenumber) {
 	FILE *file = fopen(filename, "r");
-	int count = 0;
-	if (file != NULL)
-	{
+	int count = 1;
+	if (file != NULL) {
 		static char line[256]; /* or other suitable maximum line size */
 		while (fgets(line, sizeof line, file) != NULL) /* read a line */
 		{
@@ -269,8 +267,7 @@ char* readLine(char* filename, int linenumber) {
 		}
 		fclose(file);
 	}
-	else
-	{
+	else {
 		//file doesn't exist
 		return NULL;
 	}
