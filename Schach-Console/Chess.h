@@ -15,3 +15,5 @@ int is_letter(char);
 int is_number(char);
 int execute_move(char[8][8], int[4]);
 int is_move_ok(char[8][8], int[4], int);
+char* readLine(char*, int);
+int writeLine(char*, char[8][8]);

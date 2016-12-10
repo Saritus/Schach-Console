@@ -14,7 +14,11 @@ int main() {
 		system("cls");
 		print_surface(field, player);
 		next = input(field, player);
-		player = (next == 'n') && (player == 1) ? 2 : 1;
+		if (next == 'n') {
+			player = (player == 1) ? 2 : 1;
+			writeLine("history.txt", field);
+		}
+		if ()
 	}
 }
 
@@ -153,6 +157,14 @@ char input(char field[8][8], int player) {
 		return 'q';
 	}
 
+	if (!strcmp(input, "save")) {
+		return 's';
+	}
+
+	if (!strcmp(input, "undo")) {
+		return 'u';
+	}
+
 	int move[4];
 	if (evaluate_input(input, move) && is_move_ok(field, move, player)) {
 		execute_move(field, move);
@@ -227,4 +239,43 @@ int is_move_ok(char field[8][8], int move[4], int player) {
 		return 0;
 	}
 	return 1;
+}
+
+char* readLine(char* filename, int linenumber) {
+	FILE *file = fopen(filename, "r");
+	int count = 0;
+	if (file != NULL)
+	{
+		static char line[256]; /* or other suitable maximum line size */
+		while (fgets(line, sizeof line, file) != NULL) /* read a line */
+		{
+			if (count == linenumber)
+			{
+				//use line or in a function return it
+				//in case of a return first close the file with "fclose(file);"
+				fclose(file);
+				return line;
+			}
+			else
+			{
+				count++;
+			}
+		}
+		fclose(file);
+	}
+	else
+	{
+		//file doesn't exist
+	}
+}
+
+int writeLine(char* filename, char field[8][8]) {
+	FILE *f = fopen(filename, "a");
+	for (int i = 0; i < 8; i++) {
+		for (int j = 0; j < 8; j++) {
+			fputc(field[i][j], f);
+		}
+	}
+	fputc('\n', f);
+	fclose(f);
 }

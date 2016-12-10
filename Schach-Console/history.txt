@@ -1,0 +1,5 @@
+TSLDKLSTBBBBBBBB                        b        bbbbbbbtsldklst
+TSLDKLST BBBBBBBB                       b        bbbbbbbtsldklst
+TSLDKLST BBBBBBBB                       bb        bbbbbbtsldklst
+TSLDKLST BB BBBBB  B                    bb        bbbbbbtsldklst
+TSLDKLST BB BBBBB  B                    bb     s  bbbbbbtsldkl t
