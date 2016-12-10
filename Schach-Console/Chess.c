@@ -109,8 +109,9 @@ void print_letters(int offsetx, int offsety) {
 }
 
 void print_border(int offsetx, int offsety) {
-	for (int x = 0; x < 33; x++) {
-		for (int y = 0; y < 17; y++) {
+	int x, y;
+	for (x = 0; x < 33; x++) {
+		for (y = 0; y < 17; y++) {
 			gotoXY(x + offsetx, y + offsety);
 			int nr = 2 * (x % 4 == 0) + (y % 2 == 0);
 			switch (nr) {
@@ -129,8 +130,9 @@ void print_border(int offsetx, int offsety) {
 }
 void load_file(char* filename, char field[8][8]) {
 	FILE *f = fopen(filename, "r");
-	for (int i = 0; i < 8; i++) {
-		for (int j = 0; j < 8; j++) {
+	int i, j;
+	for (i = 0; i < 8; i++) {
+		for (j = 0; j < 8; j++) {
 			field[i][j] = (char)fgetc(f);
 		}
 	}
@@ -139,8 +141,9 @@ void load_file(char* filename, char field[8][8]) {
 
 void save_file(char* filename, char field[8][8]) {
 	FILE *f = fopen(filename, "w");
-	for (int i = 0; i < 8; i++) {
-		for (int j = 0; j < 8; j++) {
+	int i, j;
+	for (i = 0; i < 8; i++) {
+		for (j = 0; j < 8; j++) {
 			fputc(field[i][j], f);
 		}
 	}
@@ -276,8 +279,9 @@ char* readLine(char* filename, int linenumber) {
 
 int writeLine(char* filename, char field[8][8]) {
 	FILE *f = fopen(filename, "a");
-	for (int i = 0; i < 8; i++) {
-		for (int j = 0; j < 8; j++) {
+	int i, j;
+	for (i = 0; i < 8; i++) {
+		for (j = 0; j < 8; j++) {
 			fputc(field[i][j], f);
 		}
 	}
@@ -288,8 +292,9 @@ int writeLine(char* filename, char field[8][8]) {
 void loadLine(char* filename, int linenumber, char field[8][8]) {
 	char* line = readLine(filename, linenumber);
 	if (line) {
-		for (int i = 0; i < 8; i++) {
-			for (int j = 0; j < 8; j++) {
+		int i, j;
+		for (i = 0; i < 8; i++) {
+			for (j = 0; j < 8; j++) {
 				field[i][j] = line[i * 8 + j];
 			}
 		}
