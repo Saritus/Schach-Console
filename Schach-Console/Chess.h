@@ -1,6 +1,7 @@
 #include "Functions.h"
 
-void print_player(int x, int y, int player);
+void print_surface(int[8][8], int);
+void print_player(int, int, int);
 void print_field(char[8][8], int, int);
 void reset_field(char[8][8]);
 void print_letters(int, int);

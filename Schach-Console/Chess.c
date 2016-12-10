@@ -12,13 +12,17 @@ int main() {
 	char next = 'g';
 	while (next != 'q') {
 		system("cls");
-		print_player(2, 1, player);
-		print_letters(2, 3);
-		print_border(3, 4);
-		print_field(field, 5, 5);
+		print_surface(field, player);
 		next = input(field, player);
 		player = (next == 'n') && (player == 1) ? 2 : 1;
 	}
+}
+
+void print_surface(int field[8][8], int player) {
+	print_player(2, 1, player);
+	print_letters(3, 4);
+	print_border(5, 5);
+	print_field(field, 7, 6);
 }
 
 void print_player(int x, int y, int player) {
@@ -30,7 +34,7 @@ void print_field(char field[8][8], int offsetx, int offsety) {
 	int x, y;
 	for (y = 0; y < 8; y++) {
 		for (x = 0; x < 8; x++) {
-			gotoXY(2 * x + offsetx, y + offsety);
+			gotoXY(4 * x + offsetx, 2 * y + offsety);
 			printf("%c", field[y][x]);
 		}
 		//printf("\n");
@@ -78,28 +82,28 @@ void print_letters(int offsetx, int offsety) {
 	int i;
 	for (i = 0; i < 8; i++) {
 		//TOP
-		gotoXY(2 * i + offsetx + 3, offsety);
+		gotoXY(4 * i + offsetx + 4, offsety);
 		printf("%c", i + 'a');
 
 		//BOTTOM
-		gotoXY(2 * i + offsetx + 3, offsety + 11);
+		gotoXY(4 * i + offsetx + 4, offsety + 18);
 		printf("%c", i + 'a');
 
 		//LEFT
-		gotoXY(offsetx, i + offsety + 2);
+		gotoXY(offsetx, 2 * i + offsety + 2);
 		printf("%d", 8 - i);
 
 		//RIGHT
-		gotoXY(offsetx + 20, i + offsety + 2);
+		gotoXY(offsetx + 36, 2 * i + offsety + 2);
 		printf("%d", 8 - i);
 	}
 }
 
 void print_border(int offsetx, int offsety) {
-	for (int x = 0; x < 19; x++) {
-		for (int y = 0; y < 10; y++) {
+	for (int x = 0; x < 33; x++) {
+		for (int y = 0; y < 17; y++) {
 			gotoXY(x + offsetx, y + offsety);
-			int nr = 2 * (x == 0) + (y == 0) + 2 * (x == 18) + (y == 9);
+			int nr = 2 * (x % 4 == 0) + (y % 2 == 0);
 			switch (nr) {
 			case 3:
 				printf("+");
@@ -136,13 +140,13 @@ void save_file(char* filename, char field[8][8]) {
 
 char input(char field[8][8], int player) {
 	char input[5];
-	gotoXY(4, 16);
+	gotoXY(4, 24);
 	printf("Nachster Zug: ");
 	scanf_s("%4c", &input, _countof(input) - 1);
 	input[4] = '\0';
 	clear_stdin();
 
-	gotoXY(4, 17);
+	gotoXY(4, 25);
 	//printf("%s", input);
 
 	if (!strcmp(input, "quit")) {
