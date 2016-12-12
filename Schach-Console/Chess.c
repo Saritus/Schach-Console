@@ -5,12 +5,12 @@ typedef int bool;
 #define false 0
 
 struct Chessmove{
+	bool ok;
 	int player;
 	int von_spalte;
 	int von_zeile;
 	int nach_spalte;
 	int nach_zeile;
-	bool ok;
 };
 
 int main() {
@@ -187,7 +187,8 @@ char input(char field[8][8], int player) {
 	}
 
 	struct Chessmove move = evaluate_input(input);
-	if (move.ok || is_move_ok(field, move)) {
+	move.player = player;
+	if (move.ok && is_move_ok(field, move)) {
 		execute_move(field, move);
 		return 'n';
 	}
@@ -202,36 +203,31 @@ void clear_stdin() {
 }
 
 struct Chessmove evaluate_input(char* input) {
-	struct Chessmove move;
+	struct Chessmove move = { true };
 	if (is_letter(input[0])) {
 		move.von_spalte = input[0] - 'a';
 	}
 	else {
 		move.ok = false;
-		return;
 	}
 	if (is_number(input[1])) {
 		move.von_zeile = 7 - (input[1] - '1');
 	}
 	else {
 		move.ok = false;
-		return;
 	}
 	if (is_letter(input[2])) {
 		move.nach_spalte = input[2] - 'a';
 	}
 	else {
 		move.ok = false;
-		return;
 	}
 	if (is_number(input[3])) {
 		move.nach_zeile = 7 - (input[3] - '1');
 	}
 	else {
 		move.ok = false;
-		return;
 	}
-	move.ok = true;
 	return move;
 }
 
@@ -245,7 +241,7 @@ int is_number(char number) {
 
 void execute_move(char field[8][8], struct Chessmove move) {
 	field[move.nach_zeile][move.nach_spalte] = field[move.von_zeile][move.von_spalte];
-	field[move.von_zeile][move.von_spalte] = ' '; 
+	field[move.von_zeile][move.von_spalte] = ' ';
 }
 
 int is_move_ok(char field[8][8], struct Chessmove move) {
