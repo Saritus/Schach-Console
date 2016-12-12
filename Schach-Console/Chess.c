@@ -1,5 +1,18 @@
 #include "Chess.h"
 
+typedef int bool;
+#define true 1
+#define false 0
+
+struct Chessmove{
+	int player;
+	int von_spalte;
+	int von_zeile;
+	int nach_spalte;
+	int nach_zeile;
+	bool ok;
+};
+
 int main() {
 	char field[8][8];
 	int player = 1;
@@ -173,8 +186,8 @@ char input(char field[8][8], int player) {
 		return 'u';
 	}
 
-	int move[4];
-	if (evaluate_input(input, move) && is_move_ok(field, move, player)) {
+	struct Chessmove move = evaluate_input(input);
+	if (move.ok || is_move_ok(field, move)) {
 		execute_move(field, move);
 		return 'n';
 	}
@@ -188,32 +201,38 @@ void clear_stdin() {
 	while ((c = getchar()) != '\n' && c != EOF) {};
 }
 
-int evaluate_input(char* input, int move[4]) {
+struct Chessmove evaluate_input(char* input) {
+	struct Chessmove move;
 	if (is_letter(input[0])) {
-		move[0] = input[0] - 'a';
+		move.von_spalte = input[0] - 'a';
 	}
 	else {
-		return 0;
+		move.ok = false;
+		return;
 	}
 	if (is_number(input[1])) {
-		move[1] = 7 - (input[1] - '1');
+		move.von_zeile = 7 - (input[1] - '1');
 	}
 	else {
-		return 0;
+		move.ok = false;
+		return;
 	}
 	if (is_letter(input[2])) {
-		move[2] = input[2] - 'a';
+		move.nach_spalte = input[2] - 'a';
 	}
 	else {
-		return 0;
+		move.ok = false;
+		return;
 	}
 	if (is_number(input[3])) {
-		move[3] = 7 - (input[3] - '1');
+		move.nach_zeile = 7 - (input[3] - '1');
 	}
 	else {
-		return 0;
+		move.ok = false;
+		return;
 	}
-	return 1;
+	move.ok = true;
+	return move;
 }
 
 int is_letter(char letter) {
@@ -224,13 +243,13 @@ int is_number(char number) {
 	return ((number >= '1') && (number <= '8'));
 }
 
-void execute_move(char field[8][8], int move[4]) {
-	field[move[3]][move[2]] = field[move[1]][move[0]];
-	field[move[1]][move[0]] = ' '; 
+void execute_move(char field[8][8], struct Chessmove move) {
+	field[move.nach_zeile][move.nach_spalte] = field[move.von_zeile][move.von_spalte];
+	field[move.von_zeile][move.von_spalte] = ' '; 
 }
 
-int is_move_ok(char field[8][8], int move[4], int player) {
-	char figur = field[move[1]][move[0]];
+int is_move_ok(char field[8][8], struct Chessmove move) {
+	char figur = field[move.von_zeile][move.von_spalte];
 
 	// cannot move empty space
 	if (figur == ' ') {
@@ -238,12 +257,12 @@ int is_move_ok(char field[8][8], int move[4], int player) {
 	}
 
 	// player 1 can only move lower letters
-	if ((player == 1) && ('A' <= figur) && (figur <= 'Z')) {
+	if ((move.player == 1) && ('A' <= figur) && (figur <= 'Z')) {
 		return 0;
 	}
 
 	// player 2 can only move lower letters
-	if ((player == 2) && ('a' <= figur) && (figur <= 'z')) {
+	if ((move.player == 2) && ('a' <= figur) && (figur <= 'z')) {
 		return 0;
 	}
 	return 1;
