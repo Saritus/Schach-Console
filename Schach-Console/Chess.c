@@ -4,24 +4,21 @@ int main() {
 	Field field;
 	int player = 1;
 	int turn = 0;
+
 	reset_field(field);
-
-	//load_file("test.txt", field);
-	//save_file("test.txt", field);
-
 	remove("history.txt");
 
-	char next = 'g';
-	while (next != 'q') {
+	char next = 'g'; // useless initialisation
+	while (next != 'q') { // quit
 		system("cls");
 		print_surface(field, player);
 		next = input(field, player);
-		if (next == 'n') {
+		if (next == 'n') { // next turn
 			player = (player == 1) ? 2 : 1;
 			turn++;
 			writeLine("history.txt", field);
 		}
-		if (next == 'u') {
+		if (next == 'u') { // undo
 			loadLine("history.txt", --turn, field);
 		}
 	}
