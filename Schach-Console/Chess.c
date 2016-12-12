@@ -1,18 +1,5 @@
 #include "Chess.h"
 
-typedef int bool;
-#define true 1
-#define false 0
-
-struct Chessmove{
-	bool ok;
-	int player;
-	int von_spalte;
-	int von_zeile;
-	int nach_spalte;
-	int nach_zeile;
-};
-
 int main() {
 	char field[8][8];
 	int player = 1;
@@ -244,24 +231,65 @@ void execute_move(char field[8][8], struct Chessmove move) {
 	field[move.von_zeile][move.von_spalte] = ' ';
 }
 
-int is_move_ok(char field[8][8], struct Chessmove move) {
+bool is_move_ok(char field[8][8], struct Chessmove move) {
 	char figur = field[move.von_zeile][move.von_spalte];
 
 	// cannot move empty space
 	if (figur == ' ') {
-		return 0;
+		return false;
 	}
 
-	// player 1 can only move lower letters
+	// player 1 can only move upper letters
 	if ((move.player == 1) && ('A' <= figur) && (figur <= 'Z')) {
-		return 0;
+		return false;
 	}
 
 	// player 2 can only move lower letters
 	if ((move.player == 2) && ('a' <= figur) && (figur <= 'z')) {
-		return 0;
+		return false;
 	}
-	return 1;
+
+	char black[9] = { 'T', 'S', 'L', 'D', 'K', 'B' };
+	char white[9] = { 't', 's', 'l', 'd', 'k', 'b' };
+
+	switch (figur) {
+	case 't': // same as below
+	case 'T':
+		break;
+	case 's': // same as below
+	case 'S':
+		break;
+	case 'l': // same as below
+	case 'L':
+		break;
+	case 'd': // same as below
+	case 'D':
+		break;
+	case 'k': // same as below
+	case 'K':
+		break;
+	case 'b': // same as below
+	case 'B':
+		if (!is_pawn_move_ok(field, move)) {
+			return false;
+		}
+		break;
+	}
+
+	return true;
+}
+
+bool is_pawn_move_ok(char field[8][8], struct Chessmove move) {
+	if (move.von_spalte != move.nach_spalte) {
+		return false;
+	}
+	if (move.player == 1 && (move.nach_zeile - move.von_zeile >= 0)) {
+		return false;
+	}
+	if (move.player == 2 && (move.nach_zeile - move.von_zeile <= 0)) {
+		return false;
+	}
+	return true;
 }
 
 char* readLine(char* filename, int linenumber) {
@@ -273,13 +301,13 @@ char* readLine(char* filename, int linenumber) {
 		{
 			if (count == linenumber)
 			{
-				//use line or in a function return it
-				//in case of a return first close the file with "fclose(file);"
+				// found the line we were looking for
 				fclose(file);
 				return line;
 			}
 			else
 			{
+				// didnt found the line we were looking for
 				count++;
 			}
 		}
