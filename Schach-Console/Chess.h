@@ -29,7 +29,7 @@ void print_letters(Position);
 void print_border(Position);
 Command input(Field, int);
 void clear_stdin();
-Chessmove evaluate_input(char*);
+Chessmove evaluate_input(string);
 bool is_letter(char);
 bool is_number(char);
 
@@ -42,8 +42,8 @@ bool is_pawn_move_ok(Field, Chessmove); // Bauer
 bool is_rook_move_ok(Field, Chessmove); // Turm
 
 // files
-void load_file(char*, Field);
-void save_file(char*, Field);
-char* readLine(char*, int);
-int writeLine(char*, Field);
-void loadLine(char*, int, Field);
+void load_file(string, Field);
+void save_file(string, Field);
+string readLine(string, int);
+int writeLine(string, Field);
+void loadLine(string, int, Field);
