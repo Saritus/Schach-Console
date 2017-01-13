@@ -2,6 +2,8 @@
 
 typedef char Field[8][8];
 
+typedef char* string;
+
 #define spalte x
 #define zeile y
 
