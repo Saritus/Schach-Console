@@ -2,9 +2,12 @@
 
 typedef char Field[8][8];
 
+#define spalte x
+#define zeile y
+
 typedef struct {
-	int zeile;
-	int spalte;
+	int x;
+	int y;
 } Position;
 
 typedef struct {
@@ -18,10 +21,10 @@ typedef enum { next, undo, save, quit, error } Command;
 
 void print_surface(Field, int);
 void print_player(int, int, int);
-void print_field(Field, int, int);
+void print_field(Field, Position);
 void reset_field(Field);
-void print_letters(int, int);
-void print_border(int, int);
+void print_letters(Position);
+void print_border(Position);
 Command input(Field, int);
 void clear_stdin();
 Chessmove evaluate_input(char*);

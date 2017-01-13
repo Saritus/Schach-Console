@@ -43,11 +43,11 @@ void print_player(int x, int y, int player) {
 	printf("Spieler %d ist dran", player);
 }
 
-void print_field(Field field, int offsetx, int offsety) {
+void print_field(Field field, Position offset) {
 	int x, y;
 	for (y = 0; y < 8; y++) {
 		for (x = 0; x < 8; x++) {
-			gotoXY(4 * x + offsetx, 2 * y + offsety);
+			gotoXY(4 * x + offset.x, 2 * y + offset.y);
 			printf("%c", field[y][x]);
 		}
 	}
@@ -90,32 +90,32 @@ void reset_field(Field field) {
 	}
 }
 
-void print_letters(int offsetx, int offsety) {
+void print_letters(Position offset) {
 	int i;
 	for (i = 0; i < 8; i++) {
 		//TOP
-		gotoXY(4 * i + offsetx + 4, offsety);
+		gotoXY(4 * i + offset.x + 4, offset.y);
 		printf("%c", i + 'a');
 
 		//BOTTOM
-		gotoXY(4 * i + offsetx + 4, offsety + 18);
+		gotoXY(4 * i + offset.x + 4, offset.y + 18);
 		printf("%c", i + 'a');
 
 		//LEFT
-		gotoXY(offsetx, 2 * i + offsety + 2);
+		gotoXY(offset.x, 2 * i + offset.y + 2);
 		printf("%d", 8 - i);
 
 		//RIGHT
-		gotoXY(offsetx + 36, 2 * i + offsety + 2);
+		gotoXY(offset.x + 36, 2 * i + offset.y + 2);
 		printf("%d", 8 - i);
 	}
 }
 
-void print_border(int offsetx, int offsety) {
+void print_border(Position offset) {
 	int x, y;
 	for (x = 0; x < 33; x++) {
 		for (y = 0; y < 17; y++) {
-			gotoXY(x + offsetx, y + offsety);
+			gotoXY(x + offset.x, y + offset.y);
 			int nr = 2 * (x % 4 == 0) + (y % 2 == 0);
 			switch (nr) {
 			case 3:
