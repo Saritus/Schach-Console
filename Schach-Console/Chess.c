@@ -8,7 +8,7 @@ int main() {
 	reset_field(field);
 	remove("history.txt");
 
-	Command command; // useless initialisation
+	Command command;
 	while (true) { // quit
 		system("cls");
 		print_surface(field, player);
@@ -22,10 +22,15 @@ int main() {
 		case undo: // undo last turn
 			loadLine("history.txt", --turn, field);
 			break;
+		case save: // save field to file
+			// TODO: save field to file
+			break;
 		case quit: // quit the program
 			exit(0);
 			break;
-		default:
+		case error: // unknown command
+			break;
+		default: // should never happen
 			break;
 		}
 	}
