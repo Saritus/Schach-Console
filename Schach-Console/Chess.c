@@ -9,7 +9,7 @@ int main() {
 	remove("history.txt");
 
 	Command command; // useless initialisation
-	while (command != 'q') { // quit
+	while (true) { // quit
 		system("cls");
 		print_surface(field, player);
 		command = input(field, player);
@@ -21,6 +21,9 @@ int main() {
 			break;
 		case undo: // undo last turn
 			loadLine("history.txt", --turn, field);
+			break;
+		case quit: // quit the program
+			exit(0);
 			break;
 		default:
 			break;
