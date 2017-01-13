@@ -8,18 +8,25 @@ int main() {
 	reset_field(field);
 	remove("history.txt");
 
-	char next = 'g'; // useless initialisation
-	while (next != 'q') { // quit
+	Command command; // useless initialisation
+	while (true) { // quit
 		system("cls");
 		print_surface(field, player);
-		next = input(field, player);
-		if (next == 'n') { // next turn
+		command = input(field, player);
+		switch (command) {
+		case next: // next turn
 			player = (player == 1) ? 2 : 1;
 			turn++;
 			writeLine("history.txt", field);
-		}
-		if (next == 'u') { // undo
+			break;
+		case undo: // undo last turn
 			loadLine("history.txt", --turn, field);
+			break;
+		case quit: // quit the program
+			exit(0);
+			break;
+		default:
+			break;
 		}
 	}
 }
@@ -43,7 +50,6 @@ void print_field(Field field, int offsetx, int offsety) {
 			gotoXY(4 * x + offsetx, 2 * y + offsety);
 			printf("%c", field[y][x]);
 		}
-		//printf("\n");
 	}
 }
 
@@ -126,7 +132,7 @@ void print_border(int offsetx, int offsety) {
 	}
 }
 
-char input(Field field, int player) {
+Command input(Field field, int player) {
 	char input[5];
 	gotoXY(4, 24);
 	printf("Nachster Zug: ");
@@ -138,25 +144,25 @@ char input(Field field, int player) {
 	//printf("%s", input);
 
 	if (!strcmp(input, "quit")) {
-		return 'q';
+		return quit;
 	}
 
 	if (!strcmp(input, "save")) {
-		return 's';
+		return save;
 	}
 
 	if (!strcmp(input, "undo")) {
-		return 'u';
+		return undo;
 	}
 
 	Chessmove move = evaluate_input(input);
 	move.player = player;
 	if (move.ok && is_move_ok(field, move)) {
 		execute_move(field, move);
-		return 'n';
+		return next;
 	}
 	else {
-		return 'a';
+		return error;
 	}
 }
 
