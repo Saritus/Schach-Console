@@ -167,25 +167,25 @@ void clear_stdin() {
 Chessmove evaluate_input(char* input) {
 	Chessmove move = { true };
 	if (is_letter(input[0])) {
-		move.von_spalte = input[0] - 'a';
+		move.von.spalte = input[0] - 'a';
 	}
 	else {
 		move.ok = false;
 	}
 	if (is_number(input[1])) {
-		move.von_zeile = 7 - (input[1] - '1');
+		move.von.zeile = 7 - (input[1] - '1');
 	}
 	else {
 		move.ok = false;
 	}
 	if (is_letter(input[2])) {
-		move.nach_spalte = input[2] - 'a';
+		move.nach.spalte = input[2] - 'a';
 	}
 	else {
 		move.ok = false;
 	}
 	if (is_number(input[3])) {
-		move.nach_zeile = 7 - (input[3] - '1');
+		move.nach.zeile = 7 - (input[3] - '1');
 	}
 	else {
 		move.ok = false;
@@ -202,8 +202,8 @@ bool is_number(char number) {
 }
 
 void execute_move(Field field, Chessmove move) {
-	field[move.nach_zeile][move.nach_spalte] = field[move.von_zeile][move.von_spalte];
-	field[move.von_zeile][move.von_spalte] = ' ';
+	field[move.nach.zeile][move.nach.spalte] = field[move.von.zeile][move.von.spalte];
+	field[move.von.zeile][move.von.spalte] = ' ';
 }
 
 bool is_player_figur(int player, char figur) {
@@ -217,8 +217,8 @@ bool is_player_figur(int player, char figur) {
 }
 
 bool is_move_ok(Field field, Chessmove move) {
-	char from_figur = field[move.von_zeile][move.von_spalte];
-	char to_figur = field[move.nach_zeile][move.nach_spalte];
+	char from_figur = field[move.von.zeile][move.von.spalte];
+	char to_figur = field[move.nach.zeile][move.nach.spalte];
 
 	// cannot move empty space
 	if (!is_player_figur(move.player, from_figur)) {
@@ -262,20 +262,20 @@ bool is_move_ok(Field field, Chessmove move) {
 }
 
 bool is_pawn_move_ok(Field field, Chessmove move) {
-	if (move.von_spalte != move.nach_spalte) {
+	if (move.von.spalte != move.nach.spalte) {
 		return false;
 	}
-	if (move.player == 1 && (move.nach_zeile - move.von_zeile >= 0)) {
+	if (move.player == 1 && (move.nach.zeile - move.von.zeile >= 0)) {
 		return false;
 	}
-	if (move.player == 2 && (move.nach_zeile - move.von_zeile <= 0)) {
+	if (move.player == 2 && (move.nach.zeile - move.von.zeile <= 0)) {
 		return false;
 	}
 	return true;
 }
 
 bool is_rook_move_ok(Field field, Chessmove move) {
-	if ((move.nach_zeile - move.von_zeile) && (move.nach_spalte - move.von_spalte)) {
+	if ((move.nach.zeile - move.von.zeile) && (move.nach.spalte - move.von.spalte)) {
 		return false;
 	}
 }

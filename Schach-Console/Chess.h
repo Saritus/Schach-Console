@@ -2,15 +2,17 @@
 
 typedef char Field[8][8];
 
-typedef struct chess Chessmove;
-struct chess{
+typedef struct {
+	int zeile;
+	int spalte;
+} Position;
+
+typedef struct {
 	bool ok;
 	int player;
-	int von_spalte;
-	int von_zeile;
-	int nach_spalte;
-	int nach_zeile;
-};
+	Position von;
+	Position nach;
+} Chessmove;
 
 void print_surface(Field, int);
 void print_player(int, int, int);
