@@ -174,7 +174,7 @@ void clear_stdin() {
 	fseek(stdin, 0, SEEK_END);
 }
 
-Chessmove evaluate_input(string input) {
+Chessmove evaluate_input(String input) {
 	Chessmove move = { true };
 	if (is_letter(input[0])) {
 		move.von.spalte = input[0] - 'a';
@@ -290,7 +290,7 @@ bool is_rook_move_ok(Field field, Chessmove move) {
 	}
 }
 
-void load_file(string filename, Field field) {
+void load_file(String filename, Field field) {
 	FILE *f = fopen(filename, "r");
 	int i, j;
 	for (i = 0; i < 8; i++) {
@@ -301,7 +301,7 @@ void load_file(string filename, Field field) {
 	fclose(f);
 }
 
-void save_file(string filename, Field field) {
+void save_file(String filename, Field field) {
 	FILE *f = fopen(filename, "w");
 	int i, j;
 	for (i = 0; i < 8; i++) {
@@ -312,7 +312,7 @@ void save_file(string filename, Field field) {
 	fclose(f);
 }
 
-string readLine(string filename, int linenumber) {
+String readLine(String filename, int linenumber) {
 	FILE *file = fopen(filename, "r");
 	int count = 1;
 	if (file != NULL) {
@@ -340,7 +340,7 @@ string readLine(string filename, int linenumber) {
 	return NULL; // should never happen
 }
 
-int writeLine(string filename, Field field) {
+int writeLine(String filename, Field field) {
 	FILE *f = fopen(filename, "a");
 	int i, j;
 	for (i = 0; i < 8; i++) {
@@ -352,8 +352,8 @@ int writeLine(string filename, Field field) {
 	fclose(f);
 }
 
-void loadLine(string filename, int linenumber, Field field) {
-	string line = readLine(filename, linenumber);
+void loadLine(String filename, int linenumber, Field field) {
+	String line = readLine(filename, linenumber);
 	if (line) {
 		int i, j;
 		for (i = 0; i < 8; i++) {
