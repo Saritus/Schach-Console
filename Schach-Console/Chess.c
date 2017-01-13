@@ -32,14 +32,18 @@ int main() {
 }
 
 void print_surface(Field field, int player) {
-	print_player(2, 1, player);
-	print_letters(3, 4);
-	print_border(5, 5);
-	print_field(field, 7, 6);
+	Position offset_player = { 2,1 };
+	print_player(offset_player, player);
+	Position offset_letters = { 3,4 };
+	print_letters(offset_letters);
+	Position offset_border = { 5,5 };
+	print_border(offset_border);
+	Position offset_field = { 7,6 };
+	print_field(field, offset_field);
 }
 
-void print_player(int x, int y, int player) {
-	gotoXY(x, y);
+void print_player(Position offset, int player) {
+	gotoXY(offset.x, offset.y);
 	printf("Spieler %d ist dran", player);
 }
 

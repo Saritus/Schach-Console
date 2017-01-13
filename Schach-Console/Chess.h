@@ -20,7 +20,7 @@ typedef struct {
 typedef enum { next, undo, save, quit, error } Command;
 
 void print_surface(Field, int);
-void print_player(int, int, int);
+void print_player(Position, int);
 void print_field(Field, Position);
 void reset_field(Field);
 void print_letters(Position);
