@@ -14,7 +14,7 @@ typedef struct {
 	Position nach;
 } Chessmove;
 
-enum command { next, undo, save, quit };
+enum command { next, undo, save, quit, error };
 typedef enum command Command;
 
 void print_surface(Field, int);
@@ -23,7 +23,7 @@ void print_field(Field, int, int);
 void reset_field(Field);
 void print_letters(int, int);
 void print_border(int, int);
-char input(Field, int);
+Command input(Field, int);
 void clear_stdin();
 Chessmove evaluate_input(char*);
 bool is_letter(char);
