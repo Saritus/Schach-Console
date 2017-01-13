@@ -14,7 +14,7 @@ typedef struct {
 	Position nach;
 } Chessmove;
 
-typedef enum command { next, undo, save, quit, error } Command;
+typedef enum { next, undo, save, quit, error } Command;
 
 void print_surface(Field, int);
 void print_player(int, int, int);
