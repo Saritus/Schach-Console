@@ -161,8 +161,7 @@ char input(Field field, int player) {
 }
 
 void clear_stdin() {
-	int c;
-	while ((c = getchar()) != '\n' && c != EOF) {};
+	fseek(stdin, 0, SEEK_END);
 }
 
 Chessmove evaluate_input(char* input) {
