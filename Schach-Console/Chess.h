@@ -12,10 +12,8 @@ typedef struct chessmove Chessmove;
 struct chessmove {
 	bool ok;
 	int player;
-	int von_spalte;
-	int von_zeile;
-	int nach_spalte;
-	int nach_zeile;
+	Position von;
+	Position nach;
 };
 
 void print_surface(Field, int);
