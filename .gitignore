@@ -50,3 +50,6 @@ Temporary Items
 .apdisk
 *.sdf
 *.opensdf
+*.db
+*.opendb
+*.suo

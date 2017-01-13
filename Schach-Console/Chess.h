@@ -12,7 +12,7 @@ struct chess{
 	int nach_zeile;
 };
 
-void print_surface(int[8][8], int);
+void print_surface(Field, int);
 void print_player(int, int, int);
 void print_field(Field, int, int);
 void reset_field(Field);
